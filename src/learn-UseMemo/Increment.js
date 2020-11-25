@@ -1,26 +1,27 @@
-import React, { useState, useMemo } from 'react'
-import { MemoizedChildFive } from './Child'
+import React, { useMemo, useState } from 'react';
 import "./Increment.css"
 
-function App3() {
+
+const App = () => {
+    const [number, setNumber] = useState(0)
     const [count, setCount] = useState(0)
-    const [name, setName] = useState('Daffa')
 
-    const person = {
-        fname: 'Bruce',
-        lname: 'Wayne',
-    }
+    const incrementNumber = () => setNumber(prev => prev + 1)
+    const incrementCount = () => setCount(prev => prev + 1)
 
-    const memoizedPerson = useMemo(() => person, [])
+    const isNumberEven = useMemo(() => {
+        let i = 0;
+        while (i < 200000000) i++
+        return number % 2 === 0
+    }, [number])
 
-    console.log('Parent Render')
     return (
-        <div className="Main1">
-            <button className="Button4" onClick={() => setCount(c => c + 1)}>Count - {count}</button>
-            <button className="Button4" onClick={() => setName('Kelompok 10')}>Change name</button>
-            <MemoizedChildFive name={name} person={memoizedPerson} />
+        <div className="Main">
+            <button className="Button3" onClick={incrementNumber}>number : {number} </button>
+            <div className="ViewButton2">{isNumberEven ? "even" : "odd"}</div>
+            <button className="Button3" onClick={incrementCount}>count: {count}</button>
         </div>
     )
 }
 
-export default App3;
+export default App;

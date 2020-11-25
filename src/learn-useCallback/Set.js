@@ -1,23 +1,41 @@
-import React, { useState, useCallback } from 'react'
-import { MemoizedChildFive } from './Child'
-import "./Set.css"
+import React, { useState, useCallback } from 'react';
+import "./Set.css";
 
-function App3() {
+const App = () => {
+    const [number, setNumber] = useState(0)
     const [count, setCount] = useState(0)
-    const [name, setName] = useState('Daffa')
+    const incrementNumber = useCallback(() => {
+        setNumber(number + 1)
+    }, [number])
+    const incrementCount = useCallback(() => {
+        setCount(count + 1)
+    }, [count])
 
-    const handleClick = () => { }
-
-    const memoizedHandleClick = useCallback(handleClick, [])
-
-    console.log('Parent Render')
     return (
-        <div className="Main1">
-            <button className="Button4" onClick={() => setCount(c => c + 1)}>Count - {count}</button>
-            <button className="Button4" onClick={() => setName('Kelompok 10')}>Change name</button>
-            <MemoizedChildFive name={name} handleClick={memoizedHandleClick} />
+        <div className="Main">
+            <Show label="number" val={number} />
+            <Button label="number" action={incrementNumber} />
+            <Show label="count" val={count} />
+            <Button label="count" action={incrementCount} />
         </div>
     )
 }
 
-export default App3;
+const Show = React.memo(({ label, val }) => {
+    console.log(`${label} inside show render`)
+    return (
+        <div>
+            <div className="ViewButton">{label} {val}</div>
+        </div>
+    )
+})
+
+const Button = React.memo(({ label, action }) => {
+    console.log(`${label} inside button render`)
+    return (
+        <div>
+            <button className="Button4" onClick={action}>add {label}</button>
+        </div>
+    )
+})
+export default App;
